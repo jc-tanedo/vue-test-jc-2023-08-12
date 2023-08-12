@@ -3,11 +3,11 @@
 ## Setup
 ### Install dependencies
 ```
-npm i
+npm ci
 ```
 ### Start the hot-reload dev server
 ```
-npm run serve
+npm run dev
 ```
 
 ## Requirements
@@ -24,3 +24,7 @@ npm run serve
 - [Axios](https://www.npmjs.com/package/axios)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Pinia](https://pinia.vuejs.org/)
+
+## Submission
+- [Github](https://github.com/jc-tanedo/vue-test-jc-2023-08-12)
+- [Live Demo](https://jc-tanedo.github.io/vue-test-jc-2023-08-12/)
