@@ -31,11 +31,3 @@ export default defineComponent({
   name: 'VLoader',
 })
 </script>
-
-<style scoped>
-.loader {
-  margin-bottom: 72px;
-  padding: 0;
-}
-</style>
-  

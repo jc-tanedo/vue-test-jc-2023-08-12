@@ -1,6 +1,7 @@
 <template>
   <div class="post-card">
     <h1 class="post-id-underlay">{{ post.id }}</h1>
+    <VUser class="user" :user-id="post.userId" />
     <h2 class="title">{{ post.title }}</h2>
     <div class="article-container">
       <article class="body">{{ post.body }}</article>
@@ -9,13 +10,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, type PropType } from 'vue'
+import VUser from './VUser.vue'
 
 export default defineComponent({
   name: 'VPost',
+  components: {
+    VUser,
+  },
   props: {
     post: {
-      type: Object,
+      type: Object as PropType<Post>,
       required: true
     }
   }
@@ -29,7 +34,6 @@ export default defineComponent({
   margin-bottom: 16px;
   max-width: 600px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  aspect-ratio: 16/9;
   position: relative;
 }
 .post-card > .title {

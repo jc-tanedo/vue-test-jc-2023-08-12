@@ -1,13 +1,15 @@
 <template>
   <div id="app">
     <div class="main-wrapper">
-      <VLoader v-if="isLoading" />
-      <VPost v-else-if="post" :post="post" />
-      <VNoPost v-else :post-id="currentPostId" @retry="fetchCurrentPost" />
+      <div class="container">
+        <VLoader v-if="isLoading" />
+        <VPost v-else-if="post" :post="post" />
+        <VNoPost v-else :post-id="currentPostId" @retry="fetchCurrentPost" />
+      </div>
 
       <div class="actions">
-        <button @click="prevPost">Previous Post</button>
-        <button @click="nextPost">Next Post</button>
+        <button :disabled="isLoading" @click="prevPost">Previous Post</button>
+        <button :disabled="isLoading" @click="nextPost">Next Post</button>
       </div>
     </div>
   </div>
@@ -91,7 +93,7 @@ export default defineComponent({
   overflow: hidden;
 }
 
-.main-wrapper {
+.main-wrapper, .container {
   width: 100%;
   height: 100%;
   display: flex;
@@ -105,5 +107,12 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   width: 300px;
+}
+
+.container {
+  height: unset;
+  width: unset;
+  margin-bottom: 72px;
+  min-height: 500px;
 }
 </style>
