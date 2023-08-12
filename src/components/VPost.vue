@@ -1,5 +1,8 @@
 <template>
-  TODO: display the post
+  <div class="post">
+    <h2 class="title">{{ post.title }}</h2>
+    <article class="body">{{ post.body }}</article>
+  </div>
 </template>
 
 <script lang="ts">
