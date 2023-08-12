@@ -3,10 +3,12 @@
     <div class="main-wrapper">
       <VLoader v-if="isLoading" />
       <VPost v-else-if="post" :post="post" />
-      <VNoPost v-else @retry="fetchCurrentPost" />
+      <VNoPost v-else :post-id="currentPostId" @retry="fetchCurrentPost" />
 
-      <button @click="prevPost">Previous Post</button>
-      <button @click="nextPost">Next Post</button>
+      <div class="actions">
+        <button @click="prevPost">Previous Post</button>
+        <button @click="nextPost">Next Post</button>
+      </div>
     </div>
   </div>
 </template>
@@ -19,6 +21,10 @@ import VLoader from './components/VLoader.vue'
 
 import { getPost } from './services/posts-service'
 
+import usePostsStore from './store/posts'
+
+import './main.css'
+
 export default defineComponent({
   name: 'App',
   components: {
@@ -26,14 +32,27 @@ export default defineComponent({
     VNoPost,
     VLoader,
   },
-  setup () {
-    const post = ref(null as object | null)
+  setup() {
+    const post = ref(null as Post | null)
     const currentPostId = ref(1)
     const isLoading = ref(false)
 
+    const posts = usePostsStore()
+
+    const fetchCurrentPostFromCache = () => {
+      const cachedPost = posts.getPost(currentPostId.value)
+      post.value = cachedPost
+    }
+
     const fetchCurrentPost = async () => {
+      fetchCurrentPostFromCache()
+      if (post.value) return;
+
       isLoading.value = true
       post.value = await getPost(currentPostId.value)
+      if (post.value) {
+        posts.upsertPost(post.value)
+      }
       isLoading.value = false
     }
 
@@ -55,6 +74,7 @@ export default defineComponent({
 
     return {
       post,
+      currentPostId,
       fetchCurrentPost,
       prevPost,
       nextPost,
@@ -63,3 +83,27 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+#app {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+</style>
